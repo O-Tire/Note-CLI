@@ -22,6 +22,7 @@
                 case "-n":
                 case "--new":
                 case "--note":
+                case "--add":
                     TakeNote(args[++i]);
                     break;
                     
