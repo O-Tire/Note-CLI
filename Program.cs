@@ -1,6 +1,6 @@
 ﻿class Program
 {
-    const string VERSION_NOTICE = "Note CLI - v1.0.0";
+    const string VERSION_NOTICE = "Note CLI - v1.1.1";
 
     static void Main(string[] args)
     {
