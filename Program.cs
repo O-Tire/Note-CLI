@@ -23,7 +23,28 @@
                 case "--new":
                 case "--note":
                 case "--add":
-                    TakeNote(args[++i]);
+                    // Example of command:        note   -n    my-note     in      my-category
+                    //        Index guide:               (i)   (i + 1)   (i + 2)     (i + 3)
+                    string note = args[i + 1];
+                    string? categoryName = null;
+                    
+                    if (args.Length >= i + 3 && args[i + 2].ToLower() == "in")
+                    {
+                        categoryName = args[i + 3];
+                        i += 3;
+                    }
+                    else
+                    {
+                        i += 1;
+                    }
+                    
+                    if (note.Contains('%') || categoryName is not null && categoryName.Contains('%'))
+                    {
+                        Console.WriteLine("ERROR: Your note or category name should not contain the character '%'.");
+                        return;
+                    }
+                    
+                    NewNote(note, categoryName);
                     break;
                     
                 case "-rm":
@@ -37,6 +58,10 @@
                 case "--clear":
                 case "--clear-all":
                     ClearAllNotes();
+                    break;
+                
+                default:
+                    Console.WriteLine("Could not find flag: " + args[i]);
                     break;
             }
         }
@@ -56,6 +81,7 @@
         return path;
     }
 
+    /// <returns>Raw note and category data. Raw data are strings that contain: note + % + category(optional)</returns>
     static List<string> LoadNotes()
     {
         using (StreamReader reader = new(GetNoteFilePath()))
@@ -64,12 +90,15 @@
         }
     }
 
-    static void SaveNotes(List<string> notes)
+    /// <summary>
+    /// Saves raw note data.
+    /// </summary>
+    static void SaveNotes(List<string> rawNoteData)
     {
         using (StreamWriter writer = new(GetNoteFilePath(), false))
         {
             writer.Write(
-            string.Join('\n', notes)
+            string.Join('\n', rawNoteData)
             );
         }
     }
@@ -78,24 +107,62 @@
 
 #region High-level Functions
 
-    static void TakeNote(string note)
+    static void NewNote(string note, string? category)
     {
         var notes = LoadNotes();
+        
+        if (category is not null) note += "%" + category;
         notes.Add(note);
         
         SaveNotes(notes);
         Console.WriteLine("Successfully added a new note.");
     }
     
-    static void PrintNotes()
+    static void PrintNotes() // TODO: WIP
     {
-        var notes = LoadNotes();
+        var rawNotes = LoadNotes();
+        List<string> notes = new();
+        List<string> categories = new();
+        HashSet<string> uniqueCategories = new();
+        
+        // Parsing the raw data into notes and categories.
+        foreach (string rawNote in rawNotes)
+        {
+            string[] notesAndCategories = rawNote.Split('%');
+            notes.Add(notesAndCategories[0]);
+            if (notesAndCategories.Length == 2)
+            {
+                categories          .Add(notesAndCategories[1]);
+                uniqueCategories    .Add(notesAndCategories[1]);
+            }
+            else
+            {
+                categories          .Add("Uncatagorized");
+                uniqueCategories    .Add("Uncatagorized");
+            }
+        }
+        
+        // Printing.
         
         Console.WriteLine("\n");
-        for (int i = 0; i < notes.Count; i++)
+        
+        var uniqueCategoriesArray = uniqueCategories.ToArray();
+        
+        for (int i = 0; i < uniqueCategoriesArray.Length; i++)
         {
-            Console.WriteLine($"{i+1}. {notes[i]}");
+            Console.WriteLine($"    {uniqueCategoriesArray[i]}:");
+            
+            for (int j = 0; j < notes.Count; j++)
+            {
+                if (categories[j] == uniqueCategoriesArray[i])
+                {
+                    Console.WriteLine($"{j + 1}. {notes[j]}");
+                }
+            }
+            
+            Console.WriteLine("\n");
         }
+        
         Console.WriteLine("\n");
     }
     
@@ -116,7 +183,7 @@
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"ERROR while trying to remove note:\n{ex.Message}");
+            Console.WriteLine($"ERROR: Note could not be found:\n{ex.Message}");
         }
     }
     
@@ -140,5 +207,5 @@
 
     }
 
-    #endregion
+#endregion
 }

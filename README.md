@@ -19,6 +19,12 @@ A simple cross-platform note management app which runs on the terminal.
 If you call 'note' with no arguments:
     Prints out all of the notes and their numbers.
 
+**New Category System:**
+You can now organize your notes with categories using this command structure:
+note -n my-note in my-category
+
+This will create a new note in a new or existing category.
+
 **Availability:**
 
 This app is cross-platform and open source.
