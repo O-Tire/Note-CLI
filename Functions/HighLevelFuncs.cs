@@ -3,7 +3,7 @@ using static LowLevelFuncs.Functions;
 namespace HighLevelFuncs;
 public static class Functions
 {
-    const string VERSION_NOTICE = "Note CLI - v1.1.1";
+    const string VERSION_NOTICE = "Note CLI - v1.1.2";
 
     public static void NewNote(string note, string? category)
     {
@@ -45,6 +45,7 @@ public static class Functions
         Console.WriteLine("\n");
 
         var uniqueCategoriesArray = uniqueCategories.ToArray();
+        int noteNumber = 1;
 
         for (int i = 0; i < uniqueCategoriesArray.Length; i++)
         {
@@ -54,7 +55,7 @@ public static class Functions
             {
                 if (categories[j] == uniqueCategoriesArray[i])
                 {
-                    Console.WriteLine($"{j + 1}. {notes[j]}");
+                    Console.WriteLine($"{noteNumber++}. {notes[j]}");
                 }
             }
 

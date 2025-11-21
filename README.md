@@ -20,6 +20,7 @@ If you call 'note' with no arguments:
     Prints out all of the notes and their numbers.
 
 **New Category System:**
+
 You can now organize your notes with categories using this command structure:
 note -n my-note in my-category
 
