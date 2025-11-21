@@ -1,15 +1,14 @@
 using static LowLevelFuncs.Functions;
+using static Constants.Utilities;
 
 namespace HighLevelFuncs;
 public static class Functions
 {
-    const string VERSION_NOTICE = "Note CLI - v1.1.2";
-
     public static void NewNote(string note, string? category)
     {
         var notes = LoadNotes();
 
-        if (category is not null) note += "%" + category;
+        if (category is not null) note += NOTE_FROM_CATEGORY_SEPERATOR + category;
         notes.Add(note);
 
         SaveNotes(notes);
@@ -26,7 +25,7 @@ public static class Functions
         // Parsing the raw data into notes and categories.
         foreach (string rawNote in rawNotes)
         {
-            string[] notesAndCategories = rawNote.Split('%');
+            string[] notesAndCategories = rawNote.Split(NOTE_FROM_CATEGORY_SEPERATOR);
             notes.Add(notesAndCategories[0]);
             if (notesAndCategories.Length == 2)
             {
@@ -45,7 +44,6 @@ public static class Functions
         Console.WriteLine("\n");
 
         var uniqueCategoriesArray = uniqueCategories.ToArray();
-        int noteNumber = 1;
 
         for (int i = 0; i < uniqueCategoriesArray.Length; i++)
         {
@@ -55,7 +53,7 @@ public static class Functions
             {
                 if (categories[j] == uniqueCategoriesArray[i])
                 {
-                    Console.WriteLine($"{noteNumber++}. {notes[j]}");
+                    Console.WriteLine($"{j + 1}. {notes[j]}");
                 }
             }
 
@@ -65,24 +63,27 @@ public static class Functions
         Console.WriteLine("\n");
     }
 
-    public static void RemoveNote(string stringIndex)
+    public static void RemoveNote(params List<int> numsToRemove)
     {
         var notes = LoadNotes();
+        numsToRemove.Sort();
+        numsToRemove.Reverse();
 
-        try
+        foreach (var numToRemove in numsToRemove)
         {
-            int index = Convert.ToInt16(stringIndex) - 1;
+            try
+            {
+                if (numToRemove <= 0 || numToRemove > notes.Count) throw new IndexOutOfRangeException();
+                
+                notes.RemoveAt(numToRemove - 1);
 
-            if (index + 1 > notes.Count) throw new IndexOutOfRangeException();
-
-            notes.RemoveAt(index);
-
-            SaveNotes(notes);
-            Console.WriteLine($"Successfully removed note #{index + 1}");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"ERROR: Note could not be found:\n{ex.Message}");
+                SaveNotes(notes);
+                Console.WriteLine($"Successfully removed note #{numToRemove}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"ERROR: Note could not be found:\n{ex.Message}");
+            }
         }
     }
 

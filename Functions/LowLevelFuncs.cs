@@ -13,7 +13,7 @@ public static class Functions
         return path;
     }
 
-    /// <returns>Raw note and category data. Raw data are strings that contain: note + % + category(optional)</returns>
+    /// <returns>Raw note and category data. Raw data are strings that contain: note + CHAR_THAT_SEPERATES_NOTE_FROM_CATEGORY(optional) + category(optional)</returns>
     public static List<string> LoadNotes()
     {
         using (StreamReader reader = new(GetNoteFilePath()))

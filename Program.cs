@@ -51,7 +51,22 @@ static class Program
                 case "-del":
                 case "--remove:":
                 case "--delete:":
-                    RemoveNote(args[++i]);
+                    var numsToRemove = new List<int>();
+                    
+                    for (int j = 1; true; j++)
+                    {
+                        if (args.Length != i + j && int.TryParse(args[i + j], out int numToRemove))
+                        {
+                            numsToRemove.Add(numToRemove);
+                        }
+                        else
+                        {
+                            i += j - 1;
+                            break;
+                        }
+                    }
+                    
+                    RemoveNote(numsToRemove);
                     break;
                     
                 case "-c":
