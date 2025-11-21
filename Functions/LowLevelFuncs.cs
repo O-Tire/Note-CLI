@@ -18,7 +18,10 @@ public static class Functions
     {
         using (StreamReader reader = new(GetNoteFilePath()))
         {
-            return reader.ReadToEnd().Trim().Split('\n').ToList();
+            return reader.ReadToEnd()
+                            .Trim()
+                            .Split('\n', StringSplitOptions.RemoveEmptyEntries)
+                            .ToList();
         }
     }
 

@@ -8,7 +8,7 @@ public static class Functions
     {
         var notes = LoadNotes();
 
-        if (category is not null) note += NOTE_FROM_CATEGORY_SEPERATOR + category;
+        if (category is not null) note += NOTE_FROM_CATEGORY_SEPARATOR + category;
         notes.Add(note);
 
         SaveNotes(notes);
@@ -25,7 +25,7 @@ public static class Functions
         // Parsing the raw data into notes and categories.
         foreach (string rawNote in rawNotes)
         {
-            string[] notesAndCategories = rawNote.Split(NOTE_FROM_CATEGORY_SEPERATOR);
+            string[] notesAndCategories = rawNote.Split(NOTE_FROM_CATEGORY_SEPARATOR);
             notes.Add(notesAndCategories[0]);
             if (notesAndCategories.Length == 2)
             {
@@ -34,8 +34,8 @@ public static class Functions
             }
             else
             {
-                categories          .Add("Uncatagorized");
-                uniqueCategories    .Add("Uncatagorized");
+                categories          .Add("Uncategorized");
+                uniqueCategories    .Add("Uncategorized");
             }
         }
 
@@ -63,7 +63,7 @@ public static class Functions
         Console.WriteLine("\n");
     }
 
-    public static void RemoveNote(params List<int> numsToRemove)
+    public static void RemoveNote(List<int> numsToRemove)
     {
         var notes = LoadNotes();
         numsToRemove.Sort();
