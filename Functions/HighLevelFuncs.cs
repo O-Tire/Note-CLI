@@ -1,5 +1,6 @@
 using static LowLevelFuncs.Functions;
 using static Constants.Utilities;
+using System.Text.Json;
 
 namespace HighLevelFuncs;
 public static class Functions
@@ -89,7 +90,12 @@ public static class Functions
 
     public static void PrintVersionNotice()
     {
-        Console.WriteLine(VERSION_NOTICE);
+        string version = 
+            JsonDocument.Parse(
+            File.ReadAllText($"{Path.GetDirectoryName(Environment.ProcessPath)}/version.json"))
+            .RootElement.GetProperty("version").ToString();
+            
+        Console.WriteLine(version);
     }
 
     public static void ClearAllNotes()
