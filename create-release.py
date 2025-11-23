@@ -22,7 +22,6 @@ temp_path_for_file_to_not_zip = f"{root}/temp/Notes.save"
 
 
 
-
 os.system(f"cd {root} && dotnet publish -c release -r {platform} --self-contained")
 if Path("temp").exists() == False: os.mkdir("temp")
 

@@ -8,9 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-  <Content Include="version.json">
-    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-  </Content>
+    <Content Include="version.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
