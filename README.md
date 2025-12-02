@@ -1,42 +1,53 @@
-A simple cross-platform note management app which runs on the terminal.
+### A simple cross-platform note management app which runs on the terminal.
 
-## Available commands:
+# Available commands:
 
-    -v or --version
+    -v OR --version
 
-Display version notice.
+> Display version notice.
 
-    -n or --new or --note or --add
+---
 
-Add a note.
+    -n OR --new OR --note OR --add
+
+> Add a note. \
 Requires one string argument. (your note)
 Example: note -n "Interview at 5 PM" in "Work Category"
 
-    -rm or -del or --remove or --delete
+---
 
-Removes one or multiple notes.
+
+    -rm OR -del OR --remove OR --delete
+
+> Removes one or multiple notes.
 Requires integer arguments. (the numbers of the notes you want to remove)
-Example: note -rm 1 7 4
 
-    -c or -clear or -clear-all
+Example: `` note -rm 1 7 4 ``
 
-Removes all notes
+---
 
-    If you call 'note' with no arguments:
+    -c OR -clear OR -clear-all
 
-Prints out all of the notes and their numbers.
+> Removes all notes
 
-## Category System:
+---
+
+    note [NO FLAGS]
+
+> Prints out all of the notes and their numbers.
+
+# Category System:
 
 You can now organize your notes with categories using this command structure:
-note -n my-note in my-category
 
-This will create a new note in a new or existing category.
+` note -n my-note in my-category `
 
-## Availability:
+> This will create a new note in a new or existing category.
 
-This app is cross-platform and open source.
-Note that the released binaries are built for Windows and don't require .NET Runtime.
+# Availability:
+
+This app is **cross-platform** and open source.
+Note that the released binaries are built for **Windows** and **don't require** .NET Runtime.
 
 
 

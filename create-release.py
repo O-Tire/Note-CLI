@@ -1,4 +1,3 @@
-from sys import argv
 from pathlib import Path
 import shutil
 import os
@@ -14,7 +13,7 @@ with open("./version.json", "r") as file:
     release_name = json.load(file).get("version")
 
 # Paths
-root = str(Path(argv[0]).parent)
+root = str(Path(os.path.realpath()).parent)
 folder_to_zip = f"{root}/bin/Release/{dotnet_version}/{platform}/publish"
 zip_to_create = f"{root}/{release_name}"
 file_to_not_zip = f"{folder_to_zip}/Notes.save"
